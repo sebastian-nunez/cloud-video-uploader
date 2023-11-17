@@ -1,15 +1,17 @@
 import dotenv from "dotenv";
 import express from "express";
+import processVideoRouter from "./routes/process-video";
 dotenv.config();
 
 const app = express();
 
-const port = process.env.SERVER_PORT || 3000;
+// middleware
+app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+// routes
+app.use("/process-video", processVideoRouter);
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+const PORT = process.env.SERVER_PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Video processing service listening at http://localhost:${PORT}`);
 });
