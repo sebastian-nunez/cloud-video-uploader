@@ -7,6 +7,7 @@
 ## Table of Contents <!-- omit from toc -->
 
 - [Features](#features)
+- [Tech Stack](#tech-stack)
 - [High-Level Architecture](#high-level-architecture)
 - [Usage Trace](#usage-trace)
 - [License](#license)
@@ -18,6 +19,34 @@
 - Uploaded videos are transcoded into multiple formats (e.g., 360p, 720p).
 - Users, whether signed in or not, can view a list of uploaded videos.
 - Users can view individual videos.
+
+## Tech Stack
+
+**Frontend:**
+
+- [TypeScript](https://www.typescriptlang.org/)
+- [Next.js (React)](https://nextjs.org/)
+
+**Backend:**
+
+- [Express.js](https://expressjs.com/)
+- [Firebase Auth](https://firebase.google.com/docs/auth)
+- [Firebase Functions](https://firebase.google.com/docs/functions)
+- [Firebase Firestore](https://firebase.google.com/docs/firestore)
+
+**Cloud Services:**
+
+- [Google Cloud Storage](https://cloud.google.com/storage)
+- [Google Cloud Pub/Sub](https://cloud.google.com/pubsub)
+- [Google Cloud Run](https://cloud.google.com/run)
+
+**Containerization:**
+
+- [Docker](https://www.docker.com/)
+
+**Video Processing:**
+
+- [FFmpeg](https://ffmpeg.org/)
 
 ## High-Level Architecture
 
