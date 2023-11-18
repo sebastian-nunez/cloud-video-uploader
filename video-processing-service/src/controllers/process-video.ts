@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import ffmpeg from "fluent-ffmpeg";
+import { VideoResolution } from "../utils/constants";
 
 export const processVideo = async (req: Request, res: Response) => {
   const { inputFilePath, outputFilePath } = req.body;
+  const videoResolution = VideoResolution.SD_720P; // TODO: make this configurable
 
   if (!inputFilePath || !outputFilePath) {
     return res.status(400).json({
@@ -11,10 +13,10 @@ export const processVideo = async (req: Request, res: Response) => {
     });
   }
 
-  console.log(`Processing video: ${inputFilePath}`);
+  console.log(`Processing video (${videoResolution}): ${inputFilePath}`);
 
   ffmpeg(inputFilePath)
-    .size("?x360") // resize to 360p
+    .size(videoResolution)
     .on("end", () => {
       console.log(`Video processed successfully: ${outputFilePath}`);
 
