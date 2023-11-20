@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
-import { setUpDirectories } from "./controllers/storage";
+import { setUpDirectories } from "./controllers/video-storage";
 import processVideoRouter from "./routes/process-video";
 dotenv.config();
 
