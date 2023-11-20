@@ -1,6 +1,8 @@
 import { Storage } from "@google-cloud/storage";
-import ffmpeg from "fluent-ffmpeg";
-import { VideoResolution } from "../utils/constants";
+import { DEFAULT_VIDEO_RESOLUTION } from "../utils/constants";
+import { deleteFile } from "../utils/filesystem";
+import { convertVideoWithFFmpeg } from "../utils/helpers";
+import { FfmpegVideoResolution } from "../utils/types";
 
 const storage = new Storage();
 
@@ -26,28 +28,17 @@ export const convertVideo = (
 ): Promise<void> => {
   if (!rawVideoName || !processedVideoName) {
     console.error("Please provide a valid rawVideoName and processedVideoName");
-    return Promise.reject();
+
+    return Promise.reject(
+      new Error("Please provide a valid rawVideoName and processedVideoName")
+    );
   }
 
   const inputFilePath = `${localRawVideoPath}/${rawVideoName}`;
   const outputFilePath = `${localProcessedVideoPath}/${processedVideoName}`;
-  const videoResolution = VideoResolution.SD_720P; // TODO: make this configurable
+  const videoResolution: FfmpegVideoResolution = DEFAULT_VIDEO_RESOLUTION; // TODO: make this configurable
 
-  return new Promise<void>((resolve, reject) => {
-    console.log(`Converting video (${videoResolution}): ${inputFilePath}`);
-
-    ffmpeg(inputFilePath)
-      .size(videoResolution)
-      .on("end", () => {
-        console.log(`Video converted successfully: ${outputFilePath}`);
-        resolve();
-      })
-      .on("error", err => {
-        console.log(`ERROR: ${err.message}`);
-        reject(err);
-      })
-      .save(outputFilePath);
-  });
+  return convertVideoWithFFmpeg(inputFilePath, outputFilePath, videoResolution);
 };
 
 /**
@@ -93,7 +84,9 @@ export const uploadProcessedVideo = async (fileName: string) => {
  * @returns A promise that resolves when the file has been deleted.
  *
  */
-export const deleteRawVideo = (fileName: string) => {};
+export const deleteRawVideo = (fileName: string): Promise<void> => {
+  return deleteFile(`${localRawVideoPath}/${fileName}`);
+};
 
 /**
  * @param fileName - The name of the file to delete from the
@@ -101,19 +94,6 @@ export const deleteRawVideo = (fileName: string) => {};
  * @returns A promise that resolves when the file has been deleted.
  *
  */
-export const deleteProcessedVideo = (fileName: string) => {};
-
-/**
- * @param filePath - The path of the file to delete.
- * @returns A promise that resolves when the file has been deleted.
- */
-const deleteFile = (filePath: string): Promise<void> => {
-  // Your code here
-  return Promise.resolve();
+export const deleteProcessedVideo = (fileName: string) => {
+  return deleteFile(`${localProcessedVideoPath}/${fileName}`);
 };
-
-/**
- * Ensures a directory exists, creating it if necessary.
- * @param {string} dirPath - The directory path to check.
- */
-const ensureDirectoryExistence = (dirPath: string) => {};
