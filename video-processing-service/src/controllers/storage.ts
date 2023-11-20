@@ -1,6 +1,6 @@
 import { Storage } from "@google-cloud/storage";
 import { DEFAULT_VIDEO_RESOLUTION } from "../utils/constants";
-import { deleteFile } from "../utils/filesystem";
+import { deleteFile, ensureDirectoryExistence } from "../utils/filesystem";
 import { convertVideoWithFFmpeg } from "../utils/helpers";
 import { FfmpegVideoResolution } from "../utils/types";
 
@@ -15,7 +15,10 @@ const localProcessedVideoPath = "./processed-videos";
 /**
  * @description Creates the local directories for raw and processed videos.
  */
-export const setUpDirectories = () => {};
+export const setUpDirectories = () => {
+  ensureDirectoryExistence(localRawVideoPath);
+  ensureDirectoryExistence(localProcessedVideoPath);
+};
 
 /**
  * @param rawVideoName - The name of the file to convert from {@link localRawVideoPath}.
