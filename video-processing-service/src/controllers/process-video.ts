@@ -1,35 +1,32 @@
 import { Request, Response } from "express";
-import ffmpeg from "fluent-ffmpeg";
-import { VideoResolution } from "../utils/constants";
+import { convertVideo } from "./storage";
 
+/**
+ * @description Processes a video from the {@link inputFileName} (from the {@link rawVideoBucketName}) and saves it to the {@link outputFileName}. After the video has been processed, it is uploaded to the {@link processedVideoBucketName} bucket.
+
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns A response with a status code and a message.
+ */
 export const processVideo = async (req: Request, res: Response) => {
-  const { inputFilePath, outputFilePath } = req.body;
-  const videoResolution = VideoResolution.SD_720P; // TODO: make this configurable
+  const { inputFileName, outputFileName } = req.body;
 
-  if (!inputFilePath || !outputFilePath) {
+  if (!inputFileName || !outputFileName) {
     return res.status(400).json({
       message:
-        "BAD REQUEST: Please provide a valid inputFilePath and outputFilePath"
+        "BAD REQUEST: Please provide a valid inputFileName and outputFileName"
     });
   }
 
-  console.log(`Processing video (${videoResolution}): ${inputFilePath}`);
-
-  ffmpeg(inputFilePath)
-    .size(videoResolution)
-    .on("end", () => {
-      console.log(`Video processed successfully: ${outputFilePath}`);
-
+  convertVideo(inputFileName, outputFileName)
+    .then(() => {
       return res.status(200).json({
         message: "Video processed successfully"
       });
     })
-    .on("error", err => {
-      console.log(`ERROR: ${err.message}`);
-
+    .catch(err => {
       return res.status(500).json({
         message: `INTERNAL SERVER ERROR: ${err.message}`
       });
-    })
-    .save(outputFilePath);
+    });
 };
