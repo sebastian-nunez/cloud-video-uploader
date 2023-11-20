@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 
 // routes
-app.use("/process-video", processVideoRouter);
+app.use("/api/process-video", processVideoRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
