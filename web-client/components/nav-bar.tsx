@@ -1,6 +1,9 @@
 "use client";
 
+import { signInWithGoogle, signOut } from "@/firebase/firebase";
+import useAuth from "@/hooks/useAuth";
 import {
+  Button,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -13,7 +16,9 @@ import Link from "next/link";
 import { useState } from "react";
 
 const NavBar: React.FC = () => {
+  // state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="2xl" isBlurred={false}>
@@ -41,15 +46,59 @@ const NavBar: React.FC = () => {
       ></NavbarContent>
 
       {/* ---------- RIGHT --------- */}
-      <NavbarContent justify="end"></NavbarContent>
+      <NavbarContent justify="end">
+        {/* ----------- Sign In / Sign Out ---------- */}
+        {user ? (
+          <NavbarMenuItem>
+            <Button
+              radius="full"
+              variant="flat"
+              color="danger"
+              onClick={signOut}
+            >
+              Sign Out
+            </Button>
+          </NavbarMenuItem>
+        ) : (
+          <NavbarMenuItem>
+            <Button
+              radius="full"
+              variant="ghost"
+              color="primary"
+              onClick={signInWithGoogle}
+            >
+              Sign In
+            </Button>
+          </NavbarMenuItem>
+        )}
+      </NavbarContent>
 
       {/* ---------- MOBILE MENU --------- */}
-      <NavbarMenu>
-        <NavbarMenuItem key={"Home"}>
-          <Link className="w-full text-3xl" href="/">
+      <NavbarMenu className="flex flex-col gap-3">
+        <NavbarMenuItem>
+          <Link className="w-full text-xl" href="/">
             Home
           </Link>
         </NavbarMenuItem>
+
+        {/* ----------- Sign In / Sign Out ---------- */}
+        {user ? (
+          <NavbarMenuItem>
+            <Link className="w-full text-xl" href="/" onClick={signOut}>
+              Sign Out
+            </Link>
+          </NavbarMenuItem>
+        ) : (
+          <NavbarMenuItem>
+            <Link
+              className="w-full text-xl"
+              href="/"
+              onClick={signInWithGoogle}
+            >
+              Sign In
+            </Link>
+          </NavbarMenuItem>
+        )}
       </NavbarMenu>
     </Navbar>
   );
