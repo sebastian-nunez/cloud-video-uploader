@@ -53,5 +53,5 @@ export const setVideo = async (videoId: string, video: Video) => {
   return await firestore
     .collection(videoCollectionId)
     .doc(videoId)
-    .set(video, { merge: true }); // merge: true will only update the fields that are provided
+    .set(video, { merge: true }); // only update the fields that are provided. DO NOT OVERWRITE
 };
