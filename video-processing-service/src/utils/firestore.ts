@@ -1,4 +1,5 @@
-import { credential, initializeApp } from "firebase-admin";
+import { credential } from "firebase-admin";
+import { initializeApp } from "firebase-admin/app";
 import { Firestore } from "firebase-admin/firestore";
 import { videoCollectionId } from "./constants";
 import { Video } from "./types";
