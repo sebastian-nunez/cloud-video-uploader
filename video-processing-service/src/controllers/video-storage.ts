@@ -1,16 +1,16 @@
 import { Storage } from "@google-cloud/storage";
-import { DEFAULT_VIDEO_RESOLUTION } from "../utils/constants";
+import {
+  DEFAULT_VIDEO_RESOLUTION,
+  localProcessedVideoPath,
+  localRawVideoPath,
+  processedVideoBucketName,
+  rawVideoBucketName
+} from "../utils/constants";
 import { deleteFile, ensureDirectoryExistence } from "../utils/filesystem";
 import { convertVideoWithFFmpeg } from "../utils/helpers";
 import { FfmpegVideoResolution } from "../utils/types";
 
 const storage = new Storage();
-
-const rawVideoBucketName = "cloud-video-uploader-raw-videos";
-const processedVideoBucketName = "cloud-video-uploader-processed-videos";
-
-const localRawVideoPath = "./raw-videos";
-const localProcessedVideoPath = "./processed-videos";
 
 /**
  * @description Creates the local directories for raw and processed videos.
