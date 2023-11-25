@@ -76,7 +76,7 @@ export const getVideos = onCall({ maxInstances: 1 }, async () => {
     .limit(100)
     .get();
 
-  const videos = snapshot.docs.forEach(doc => doc.data());
+  const videos = snapshot.docs.map(doc => doc.data());
 
   logger.info(`Retrieved videos: ${JSON.stringify(videos)}`);
   return videos;
