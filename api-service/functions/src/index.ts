@@ -41,7 +41,7 @@ export const createUser = functions.auth.user().onCreate(user => {
   logger.info(`User created: ${JSON.stringify(userInfo)}`);
 });
 
-export const generateSignedUploadUrl = onCall(
+export const generateSignedUploadUrlForRawVideos = onCall(
   { maxInstances: 1 },
   async request => {
     // check if user is authenticated
