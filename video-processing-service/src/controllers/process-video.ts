@@ -44,8 +44,8 @@ export const processVideo = async (req: Request, res: Response) => {
   const outputFileName = `processed-${inputFileName}`;
 
   // video metadata
-  const videoId = inputFileName.split("-")[0];
-  const [uid, date] = videoId.split("-");
+  const videoId = inputFileName.split(".")[0];
+  const uid = videoId.split("-")[0];
 
   // make sure the video is new
   if (await isVideoNew(videoId)) {
