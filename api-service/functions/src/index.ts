@@ -24,6 +24,7 @@ import { onCall } from "firebase-functions/v2/https";
 // });
 
 const rawVideoBucketName = "cloud-video-uploader-raw-videos";
+const videoCollectionId = "videos";
 
 initializeApp();
 const firestore = new Firestore();
@@ -68,3 +69,15 @@ export const generateSignedUploadUrlForRawVideos = onCall(
     return { url, fileName };
   }
 );
+
+export const getVideos = onCall({ maxInstances: 1 }, async () => {
+  const snapshot = await firestore
+    .collection(videoCollectionId)
+    .limit(100)
+    .get();
+
+  const videos = snapshot.docs.forEach(doc => doc.data());
+
+  logger.info(`Retrieved videos: ${JSON.stringify(videos)}`);
+  return videos;
+});
