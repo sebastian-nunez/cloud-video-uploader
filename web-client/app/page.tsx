@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div>
       <Button startContent={<Camera size={20} />}>Snap a Photo</Button>
-      <Toaster position="top-right" />
+      <Toaster position="bottom-right" />
     </div>
   );
 };
