@@ -26,6 +26,5 @@ export const uploadVideo = async (file: File) => {
     console.log(`Uploaded file '${file.name}' via a signed URL`);
   }
 
-  // return the file name
-  return response?.data?.fileName;
+  return res;
 };
