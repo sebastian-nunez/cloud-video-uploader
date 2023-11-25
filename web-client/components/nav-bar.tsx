@@ -15,6 +15,7 @@ import { MonitorPlay } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import UploadButton from "./upload-button";
+import UserDropdown from "./user-dropdown-menu";
 
 const NavBar: React.FC = () => {
   // state
@@ -56,16 +57,7 @@ const NavBar: React.FC = () => {
 
         {/* ----------- Sign In / Sign Out ---------- */}
         {user ? (
-          <NavbarMenuItem>
-            <Button
-              radius="full"
-              variant="flat"
-              color="danger"
-              onClick={signOut}
-            >
-              Sign Out
-            </Button>
-          </NavbarMenuItem>
+          <UserDropdown user={user} />
         ) : (
           <NavbarMenuItem>
             <Button
