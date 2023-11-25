@@ -45,7 +45,7 @@ const UploadButton = () => {
       <Tooltip content="Upload Video">
         <label
           htmlFor="upload"
-          className="hover:cursor-pointer flex items-center justify-center hover:bg-gray-200 rounded-lg p-2 transition ease-in-out duration-200"
+          className="hover:cursor-pointer flex items-center justify-center hover:bg-gray-100 rounded-full p-3 transition ease-in-out duration-200"
         >
           <Video height={25} width={25} />
         </label>
