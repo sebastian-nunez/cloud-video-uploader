@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { isVideoNew, setVideo } from "../utils/firestore";
 import {
   convertVideo,
   deleteProcessedVideo,
@@ -39,8 +40,21 @@ export const processVideo = async (req: Request, res: Response) => {
   }
 
   // get the filename from the message
-  const inputFileName = data.name;
+  const inputFileName = data.name; // <UID>-<DATE>.EXT
   const outputFileName = `processed-${inputFileName}`;
+
+  // video metadata
+  const videoId = inputFileName.split("-")[0];
+  const [uid, date] = videoId.split("-");
+
+  // make sure the video is new
+  if (await isVideoNew(videoId)) {
+    await setVideo(videoId, { id: videoId, uid, status: "processing" });
+  } else {
+    return res
+      .status(400)
+      .json({ message: `Bad Request: Video already processed or processing` });
+  }
 
   // download video
   await downloadRawVideo(inputFileName);
@@ -50,6 +64,9 @@ export const processVideo = async (req: Request, res: Response) => {
     await convertVideo(inputFileName, outputFileName);
   } catch (err) {
     console.log(`Error converting video at ${inputFileName}: ${err}`);
+
+    // update video status
+    await setVideo(videoId, { status: "failed" });
 
     // cleanup
     await Promise.all([
@@ -64,6 +81,9 @@ export const processVideo = async (req: Request, res: Response) => {
 
   // upload video
   await uploadProcessedVideo(outputFileName);
+
+  // update video status
+  await setVideo(videoId, { status: "processed", filename: outputFileName });
 
   // cleanup
   await Promise.all([
