@@ -14,6 +14,7 @@ import {
 import { MonitorPlay } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import UploadButton from "./upload-button";
 
 const NavBar: React.FC = () => {
   // state
@@ -47,6 +48,12 @@ const NavBar: React.FC = () => {
 
       {/* ---------- RIGHT --------- */}
       <NavbarContent justify="end">
+        {user && (
+          <div className="">
+            <UploadButton />
+          </div>
+        )}
+
         {/* ----------- Sign In / Sign Out ---------- */}
         {user ? (
           <NavbarMenuItem>
