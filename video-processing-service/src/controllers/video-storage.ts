@@ -56,7 +56,7 @@ export const downloadRawVideo = async (fileName: string) => {
     .download({ destination: `${localRawVideoPath}/${fileName}` });
 
   console.log(
-    `gs//${rawVideoBucketName}/${fileName} downloaded to ${localRawVideoPath}/${fileName}`
+    `gs://${rawVideoBucketName}/${fileName} downloaded to ${localRawVideoPath}/${fileName}`
   );
 };
 
@@ -77,7 +77,7 @@ export const uploadProcessedVideo = async (fileName: string) => {
   await bucket.file(fileName).makePublic();
 
   console.log(
-    `${localProcessedVideoPath}/${fileName} uploaded to gs//${processedVideoBucketName}/${fileName}`
+    `${localProcessedVideoPath}/${fileName} uploaded to gs://${processedVideoBucketName}/${fileName}`
   );
 };
 
