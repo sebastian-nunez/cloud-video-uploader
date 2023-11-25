@@ -1,13 +1,31 @@
-import { Button } from "@nextui-org/button";
-import { Camera } from "lucide-react";
+import { getVideos } from "@/firebase/functions";
+import Image from "next/image";
+import Link from "next/link";
 import { Toaster } from "react-hot-toast";
 
-const Home = () => {
+const Home = async () => {
+  const videos = await getVideos();
+
   return (
-    <div>
-      <Button startContent={<Camera size={20} />}>Snap a Photo</Button>
+    <>
+      <main>
+        {videos
+          .filter(video => video.status === "processed")
+          .map(video => (
+            <Link href={`/watch?v=${video.filename}`}>
+              <Image
+                src={"/thumbnail.png"}
+                alt="video"
+                width={120}
+                height={80}
+                className=""
+              />
+            </Link>
+          ))}
+      </main>
+
       <Toaster position="bottom-right" />
-    </div>
+    </>
   );
 };
 

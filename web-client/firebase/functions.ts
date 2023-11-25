@@ -1,11 +1,13 @@
-import { getFunctions, httpsCallable } from "firebase/functions";
-
-const functions = getFunctions();
+import { Video } from "@/utils/types";
+import { httpsCallable } from "firebase/functions";
+import { functions } from "./firebase";
 
 const generateUploadUrlRawVideo = httpsCallable(
   functions,
   "generateSignedUploadUrlForRawVideos"
 );
+
+const getVideosFunction = httpsCallable(functions, "getVideos");
 
 export const uploadVideo = async (file: File) => {
   // generate a signed URL
@@ -27,4 +29,10 @@ export const uploadVideo = async (file: File) => {
   }
 
   return res;
+};
+
+export const getVideos = async () => {
+  const response = await getVideosFunction();
+
+  return (response?.data as Video[]) ?? [];
 };
