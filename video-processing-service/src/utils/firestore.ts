@@ -41,7 +41,7 @@ const getVideo = async (videoId: string): Promise<Video> => {
  * @param videoId - The ID of the video to update
  * @param video - The video object to update
  */
-export const setVideo = async (videoId: string, video: Video) => {
+export const setVideo = (videoId: string, video: Video) => {
   if (!videoId) {
     throw new Error("Please provide a valid videoId");
   }
@@ -51,7 +51,7 @@ export const setVideo = async (videoId: string, video: Video) => {
   }
 
   console.log(`Updating video ${videoId} with ${JSON.stringify(video)}`);
-  return await firestore
+  return firestore
     .collection(videoCollectionId)
     .doc(videoId)
     .set(video, { merge: true }); // only update the fields that are provided. DO NOT OVERWRITE
