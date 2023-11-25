@@ -1,6 +1,7 @@
 import { Tooltip } from "@nextui-org/react";
 import { Video } from "lucide-react";
 import { ChangeEvent } from "react";
+import toast from "react-hot-toast";
 import { uploadVideo } from "../firebase/functions";
 
 const UploadButton = () => {
@@ -19,13 +20,23 @@ const UploadButton = () => {
     }
 
     try {
-      const res = await uploadVideo(file);
+      const promise = new Promise(async (resolve, reject) => {
+        const res = await uploadVideo(file);
 
-      if (res.ok) {
-        alert(`Video uploaded successfully!`);
-      }
+        if (res.ok) {
+          resolve(res);
+        } else {
+          reject(res);
+        }
+      });
+
+      await toast.promise(promise, {
+        loading: "Uploading video...",
+        success: "Video uploaded successfully!",
+        error: err => `Failed to upload video: ${err.toString()}`
+      });
     } catch (err) {
-      alert(`Failed to upload video: ${err}`);
+      toast.error(`Failed to upload video: ${err}`);
     }
   };
 
@@ -36,7 +47,7 @@ const UploadButton = () => {
           htmlFor="upload"
           className="hover:cursor-pointer flex items-center justify-center hover:bg-gray-200 rounded-lg p-2 transition ease-in-out duration-200"
         >
-          <Video height={30} width={30} />
+          <Video height={25} width={25} />
         </label>
       </Tooltip>
 

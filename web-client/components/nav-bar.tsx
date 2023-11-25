@@ -49,9 +49,9 @@ const NavBar: React.FC = () => {
       {/* ---------- RIGHT --------- */}
       <NavbarContent justify="end">
         {user && (
-          <div className="">
+          <NavbarMenuItem>
             <UploadButton />
-          </div>
+          </NavbarMenuItem>
         )}
 
         {/* ----------- Sign In / Sign Out ---------- */}
