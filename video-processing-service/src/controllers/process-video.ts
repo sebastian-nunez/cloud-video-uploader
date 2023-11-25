@@ -48,12 +48,12 @@ export const processVideo = async (req: Request, res: Response) => {
   const uid = videoId.split("-")[0];
 
   // make sure the video is new
-  if (await isVideoNew(videoId)) {
-    await setVideo(videoId, { id: videoId, uid, status: "processing" });
-  } else {
+  if (!isVideoNew(videoId)) {
     return res
       .status(400)
       .json({ message: `Bad Request: Video already processed or processing` });
+  } else {
+    await setVideo(videoId, { id: videoId, uid, status: "processing" });
   }
 
   // download video
