@@ -55,3 +55,18 @@ export const setVideo = async (videoId: string, video: Video) => {
     .doc(videoId)
     .set(video, { merge: true }); // only update the fields that are provided. DO NOT OVERWRITE
 };
+
+/**
+ * Checks if a video is new by checking the status field in Firestore
+ * @param videoId - The ID of the video to check
+ * @returns A boolean indicating whether the video is new
+ */
+export const isVideoNew = async (videoId: string) => {
+  if (!videoId) {
+    throw new Error("Please provide a valid videoId");
+  }
+
+  const video = await getVideo(videoId);
+
+  return video?.status === undefined;
+};
