@@ -19,7 +19,7 @@ const firestore = new Firestore();
  * @param videoId - The ID of the video to retrieve
  * @returns The video object
  */
-const getVideo = async (videoId: string) => {
+const getVideo = async (videoId: string): Promise<Video> => {
   if (!videoId) {
     throw new Error("Please provide a valid videoId");
   }
