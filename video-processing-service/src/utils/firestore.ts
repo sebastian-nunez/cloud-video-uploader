@@ -31,5 +31,27 @@ const getVideo = async (videoId: string) => {
 
   const video = snapshot.data();
 
+  console.log(`Retrieved video ${videoId}: ${JSON.stringify(video)}`);
   return (video as Video) ?? {};
+};
+
+/**
+ * Updates a video in the Firestore Video collection
+ * @param videoId - The ID of the video to update
+ * @param video - The video object to update
+ */
+export const setVideo = async (videoId: string, video: Video) => {
+  if (!videoId) {
+    throw new Error("Please provide a valid videoId");
+  }
+
+  if (!video) {
+    throw new Error("Please provide a valid video");
+  }
+
+  console.log(`Updating video ${videoId} with ${JSON.stringify(video)}`);
+  return await firestore
+    .collection(videoCollectionId)
+    .doc(videoId)
+    .set(video, { merge: true }); // merge: true will only update the fields that are provided
 };
