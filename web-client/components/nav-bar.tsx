@@ -36,7 +36,9 @@ const NavBar: React.FC = () => {
         <Link href="/" className="hidden sm:block ">
           <NavbarBrand className="flex gap-1 hover:cursor-pointer">
             <MonitorPlay width={25} className="text-red-600" />
-            <p className="font-bold text-inherit">Cloud Video Uploader</p>
+            <p className="font-bold text-inherit tracking-tight text-xl">
+              Cloud Video Uploader
+            </p>
           </NavbarBrand>
         </Link>
       </NavbarContent>
