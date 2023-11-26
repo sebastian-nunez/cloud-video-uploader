@@ -1,6 +1,5 @@
+import VideoCard from "@/components/video-card";
 import { getVideos } from "@/firebase/functions";
-import Image from "next/image";
-import Link from "next/link";
 import { Toaster } from "react-hot-toast";
 
 const Home = async () => {
@@ -9,19 +8,14 @@ const Home = async () => {
   return (
     <>
       <main>
-        {videos
-          .filter(video => video.status === "processed")
-          .map(video => (
-            <Link href={`/watch?v=${video.filename}`}>
-              <Image
-                src={"/thumbnail.png"}
-                alt="video"
-                width={120}
-                height={80}
-                className=""
-              />
-            </Link>
-          ))}
+        {/* ---------------- Video Grid -------------- */}
+        <section className="grid grid-cols-4 gap-4">
+          {videos
+            .filter(video => video.status === "processed")
+            .map(video => (
+              <VideoCard video={video} key={video.id} />
+            ))}
+        </section>
       </main>
 
       <Toaster position="bottom-right" />
