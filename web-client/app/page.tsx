@@ -24,4 +24,4 @@ const Home = async () => {
 };
 
 export default Home;
-export const revalidate = 0; // disable next.js cache
+export const revalidate = 30; // revalidate every 30 seconds
