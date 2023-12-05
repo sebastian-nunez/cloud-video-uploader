@@ -8,6 +8,7 @@
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
+- [Demo](#demo])
 - [High-Level Architecture](#high-level-architecture)
 - [Usage Trace](#usage-trace)
 - [License](#license)
@@ -47,6 +48,10 @@
 **Video Processing:**
 
 - [FFmpeg](https://ffmpeg.org/)
+
+## Demo
+
+![main demo](demos/main_demo.gif)
 
 ## High-Level Architecture
 
